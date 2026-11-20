@@ -18,6 +18,11 @@
             "homepage": "https://www.otten-it.nl"
         }
     ],
+    "support": {
+        "issues": "https://github.com/otten-it/version-report/issues",
+        "source": "https://github.com/otten-it/version-report",
+        "security": "https://github.com/otten-it/version-report/blob/main/SECURITY.md"
+    },
     "require": {
         "php": "^8.3",
         "illuminate/support": "^12.0|^13.0",
