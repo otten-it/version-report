@@ -1,0 +1,38 @@
+{
+    "name": "otten-it/version-report",
+    "description": "Reports a Laravel application's Laravel, PHP and package versions to the Otten IT hosting dashboard, behind a token.",
+    "type": "library",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.3",
+        "illuminate/support": "^12.0|^13.0",
+        "illuminate/routing": "^12.0|^13.0",
+        "composer-runtime-api": "^2.2"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^10.0|^11.0",
+        "phpunit/phpunit": "^11.5|^12.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "OttenIt\\VersionReport\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "OttenIt\\VersionReport\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "OttenIt\\VersionReport\\VersionReportServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
