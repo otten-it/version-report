@@ -1,8 +1,23 @@
 {
     "name": "otten-it/version-report",
-    "description": "Reports a Laravel application's Laravel, PHP and package versions to the Otten IT hosting dashboard, behind a token.",
+    "description": "Lets a monitoring dashboard read which Laravel, PHP and package versions a Laravel application runs on, behind a secret token.",
     "type": "library",
-    "license": "proprietary",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "versions",
+        "monitoring",
+        "security",
+        "hosting",
+        "end-of-life"
+    ],
+    "homepage": "https://www.otten-it.nl",
+    "authors": [
+        {
+            "name": "Otten IT",
+            "homepage": "https://www.otten-it.nl"
+        }
+    ],
     "require": {
         "php": "^8.3",
         "illuminate/support": "^12.0|^13.0",
