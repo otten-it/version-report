@@ -3,6 +3,7 @@
 namespace OttenIt\VersionReport\Tests;
 
 use Orchestra\Testbench\TestCase;
+use OttenIt\VersionReport\OperatingSystem;
 use OttenIt\VersionReport\VersionReportServiceProvider;
 
 class VersionReportTest extends TestCase
@@ -26,7 +27,8 @@ class VersionReportTest extends TestCase
             ->assertHeader('Cache-Control', 'no-store, private')
             ->assertJsonPath('report_version', 1)
             ->assertJsonPath('laravel', app()->version())
-            ->assertJsonPath('php', PHP_VERSION);
+            ->assertJsonPath('php', PHP_VERSION)
+            ->assertJsonPath('os', OperatingSystem::read());
 
         $names = array_column($response->json('packages'), 'name');
         $this->assertContains('laravel/framework', $names);

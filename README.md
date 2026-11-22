@@ -1,7 +1,7 @@
 # otten-it/version-report
 
-Lets a monitoring dashboard read which Laravel, PHP and package versions a Laravel application
-runs on, behind a secret token. Used by [Otten IT](https://www.otten-it.nl) to check that every
+Lets a monitoring dashboard read which operating system, Laravel, PHP and package versions a
+Laravel application runs on, behind a secret token. Used by [Otten IT](https://www.otten-it.nl) to check that every
 application it hosts runs on supported versions and has no packages with known
 vulnerabilities.
 
@@ -13,6 +13,7 @@ Authorization: Bearer <token>
   "report_version": 1,
   "laravel": "13.43.0",
   "php": "8.3.14",
+  "os": {"id": "ubuntu", "version": "26.04"},
   "packages": [{"name": "guzzlehttp/guzzle", "version": "7.10.0"}, …],
   "generated_at": "2026-11-21T06:00:00+01:00"
 }
@@ -49,8 +50,8 @@ A list of versions tells an attacker what to try, so the report is never public:
   never from the query string (which ends up in logs).
 - The route runs outside the `web` middleware group: no session, no cookies. It is throttled to
   10 requests a minute.
-- Only production packages are reported (no `require-dev`), and nothing else: no environment,
-  configuration or paths.
+- Reported: versions of the operating system, Laravel, PHP and production packages (no
+  `require-dev`). Nothing else: no environment, configuration or paths.
 
 Always read the report over HTTPS, and do not follow redirects with the token attached.
 
@@ -70,6 +71,10 @@ php artisan vendor:publish --tag=version-report
 | `path` | `version-report` | URL path |
 
 ## Report format
+
+`os` (since 1.1.0) is `ID` and `VERSION_ID` from `/etc/os-release`, or `null` when that is
+unreadable or has no version (rolling release, `open_basedir`). In a container it is the image's
+system, not the host's.
 
 `report_version` is `1`. A future incompatible change raises it, so a reader can refuse a format
 it does not understand. `packages` lists every installed production package with its pretty

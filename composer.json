@@ -1,6 +1,6 @@
 {
     "name": "otten-it/version-report",
-    "description": "Lets a monitoring dashboard read which Laravel, PHP and package versions a Laravel application runs on, behind a secret token.",
+    "description": "Lets a monitoring dashboard read which operating system, Laravel, PHP and package versions a Laravel application runs on, behind a secret token.",
     "type": "library",
     "license": "MIT",
     "keywords": [
