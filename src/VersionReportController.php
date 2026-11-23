@@ -7,8 +7,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 /**
- * Reports the versions this application runs on: operating system, Laravel, PHP and every installed
- * production package, for the Otten IT hosting dashboard (supported versions, known vulnerabilities).
+ * Reports the versions this application runs on: operating system, Laravel, PHP, every installed
+ * production Composer package and every npm package from package-lock.json, for the Otten IT
+ * hosting dashboard (supported versions, known vulnerabilities, malware).
  *
  * Only with the right bearer token. Without one, with a wrong one, or while no token is
  * configured, it answers 404: to anyone else the endpoint does not exist. A version list tells
@@ -34,6 +35,7 @@ class VersionReportController
                 'php' => PHP_VERSION,
                 'os' => OperatingSystem::read(),
                 'packages' => $this->packages(),
+                'npm' => NpmPackages::read(base_path()),
                 'generated_at' => now()->toIso8601String(),
             ])
             ->header('Cache-Control', 'no-store')

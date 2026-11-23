@@ -3,6 +3,7 @@
 namespace OttenIt\VersionReport\Tests;
 
 use Orchestra\Testbench\TestCase;
+use OttenIt\VersionReport\NpmPackages;
 use OttenIt\VersionReport\OperatingSystem;
 use OttenIt\VersionReport\VersionReportServiceProvider;
 
@@ -33,6 +34,10 @@ class VersionReportTest extends TestCase
         $names = array_column($response->json('packages'), 'name');
         $this->assertContains('laravel/framework', $names);
         $this->assertNotContains('phpunit/phpunit', $names, 'dev packages are not reported');
+
+        // Always present since 1.2: null, or what package-lock.json holds (NpmPackagesTest).
+        $this->assertArrayHasKey('npm', $response->json());
+        $this->assertSame(NpmPackages::read(base_path()), $response->json('npm'));
     }
 
     public function test_no_token_or_a_wrong_token_gets_a_404(): void
