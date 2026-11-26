@@ -26,7 +26,8 @@ Authorization: Bearer <token>
 composer require otten-it/version-report
 ```
 
-Generate a token and put it in the application's `.env`:
+Put a token of at least 32 characters in the application's `.env`: the one your dashboard
+generated, or one of your own:
 
 ```bash
 php -r "echo bin2hex(random_bytes(32)), PHP_EOL;"
@@ -36,8 +37,8 @@ php -r "echo bin2hex(random_bytes(32)), PHP_EOL;"
 VERSION_REPORT_TOKEN=
 ```
 
-Give the same token and the URL (`https://your-app.example/version-report`) to whoever reads the
-report. That is all: the service provider is discovered automatically.
+Give whoever reads the report the URL (`https://your-app.example/version-report`), and the token
+if they did not generate it. That is all: the service provider is discovered automatically.
 
 Requires PHP 8.3+ and Laravel 12 or 13.
 
@@ -45,8 +46,9 @@ Requires PHP 8.3+ and Laravel 12 or 13.
 
 A list of versions tells an attacker what to try, so the report is never public:
 
-- **404 without the right token**, and also while no token is configured: to anyone else the
-  endpoint does not exist.
+- **404 without the right token**, and also while no token, or one under 32 characters, is
+  configured: to anyone else the endpoint does not exist, and a short token typed by hand
+  cannot protect it.
 - The token is compared in constant time and only accepted from the `Authorization` header,
   never from the query string (which ends up in logs).
 - The route runs outside the `web` middleware group: no session, no cookies. It is throttled to
@@ -69,7 +71,7 @@ php artisan vendor:publish --tag=version-report
 
 | Key | Default | |
 |---|---|---|
-| `token` | `env('VERSION_REPORT_TOKEN')` | shared secret; empty disables the endpoint |
+| `token` | `env('VERSION_REPORT_TOKEN')` | shared secret; empty or under 32 characters disables the endpoint |
 | `path` | `version-report` | URL path |
 
 ## Report format

@@ -55,6 +55,16 @@ class VersionReportTest extends TestCase
         $this->getJson('/version-report', ['Authorization' => 'Bearer anything'])->assertNotFound();
     }
 
+    public function test_a_token_under_32_characters_disables_the_endpoint(): void
+    {
+        $short = str_repeat('x', 31);
+        config(['version-report.token' => $short]);
+        $this->getJson('/version-report', ['Authorization' => 'Bearer '.$short])->assertNotFound();
+
+        config(['version-report.token' => $short.'x']);
+        $this->getJson('/version-report', ['Authorization' => 'Bearer '.$short.'x'])->assertOk();
+    }
+
     public function test_it_sets_no_cookies(): void
     {
         $response = $this->getJson('/version-report', ['Authorization' => 'Bearer '.self::TOKEN]);
